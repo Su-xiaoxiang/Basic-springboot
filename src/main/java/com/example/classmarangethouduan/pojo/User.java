@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
+    private Integer stuId;// 学号
     private String username; //用户名
     private String password; //密码
 }

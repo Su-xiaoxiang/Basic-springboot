@@ -8,8 +8,21 @@ import com.example.classmarangethouduan.pojo.User;
  * @Version 1.0
  */
 public interface LoginService {
-    /*
-    * 用户登录
-    * */
-    void login(User user);
+    /**
+     * 登录操作
+     *
+     * @param user
+     * @return
+     * @Username 程序员-Su_xiaoxiang
+     */
+    User login(User user);
+
+    /**
+     * 查询用户名是否存在
+     * @param user
+     * @Username 程序员-Su_xiaoxiang
+     * @date 2024/8/16 22:56
+     * @return
+     */
+    User getUsername(User user);
 }
