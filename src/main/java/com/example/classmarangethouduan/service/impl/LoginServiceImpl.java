@@ -1,5 +1,6 @@
 package com.example.classmarangethouduan.service.impl;
 
+import com.example.classmarangethouduan.pojo.User;
 import com.example.classmarangethouduan.service.LoginService;
 import org.springframework.stereotype.Service;
 
@@ -10,4 +11,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class LoginServiceImpl implements LoginService {
+    /*
+    * 用户登录
+    * */
+    @Override
+    public void login(User user) {
+
+    }
 }

@@ -22,6 +22,7 @@ public class LoginController {
     @PostMapping("/login")
     public Result login(@RequestBody User user){
       log.info("用户登录信息为: "+user);
+      loginService.login(user);
       return Result.error("登录失败");
     }
 }
