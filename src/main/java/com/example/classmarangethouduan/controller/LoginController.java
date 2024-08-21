@@ -26,7 +26,6 @@ public class LoginController {
 
     /**
      * 用户登录
-     * @param user
      * @Username 程序员-Su_xiaoxiang
      */
     @PostMapping("/login")
@@ -42,7 +41,12 @@ public class LoginController {
           claims.put("username", userLogin.getUsername());
           claims.put("password", userLogin.getPassword());
           String jwt = JwtUtils.generateJwt(claims);
-          return Result.success(jwt);
+          log.info("生成的JWT令牌为: {}", jwt);
+          log.info("用户登录成功");
+          Map<String, Object> UserLoginInfo= new HashMap<>();
+          UserLoginInfo.put("userId", userLogin.getStuId());
+          UserLoginInfo.put("token", jwt);
+          return Result.success(UserLoginInfo);
       }else {
           return Result.error("用户名或密码错误");
       }
