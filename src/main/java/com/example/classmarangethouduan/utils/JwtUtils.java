@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class JwtUtils {
 
-    private static String signKey = "FirstProject";
+    private static String signKey = "Class-target";
     private static Long expire = 3600000L;
 
     /**

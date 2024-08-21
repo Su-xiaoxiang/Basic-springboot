@@ -37,7 +37,12 @@ public class LoginController {
       if (SelectUserUsername == null){
           return Result.error("用户不存在,请前往注册");
       } else if (userLogin != null) {
-          return Result.success();
+          Map<String, Object> claims = new HashMap<>();
+          claims.put("id", userLogin.getStuId());
+          claims.put("username", userLogin.getUsername());
+          claims.put("password", userLogin.getPassword());
+          String jwt = JwtUtils.generateJwt(claims);
+          return Result.success(jwt);
       }else {
           return Result.error("用户名或密码错误");
       }
