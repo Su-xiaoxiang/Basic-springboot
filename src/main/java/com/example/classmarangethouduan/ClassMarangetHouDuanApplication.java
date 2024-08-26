@@ -11,6 +11,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 public class ClassMarangetHouDuanApplication {
 
     public static void main(String[] args) {
+        log.info("服务器已启动");
         SpringApplication.run(ClassMarangetHouDuanApplication.class, args);
     }
 

@@ -18,7 +18,7 @@ public interface LoginMapper {
      * @date 2024/8/16 22:52
      * @return
      */
-    @Select("select * from user where stuUserName=#{username} and stuPassWord=#{password}")
+    @Select("select * from user where stuUserName=#{stuUserName} and stuPassWord=#{password}")
     User login(User user);
 
     /**
@@ -28,6 +28,6 @@ public interface LoginMapper {
      * @date 2024/8/16 22:57
      * @return
      */
-    @Select("select * from user where stuUserName=#{username}")
+    @Select("select * from user where stuUserName=#{stuUserName}")
     User SelectUserUsername(User user);
 }

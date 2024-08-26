@@ -1,23 +1,25 @@
 package com.example.classmarangethouduan.exception;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-/**
- * @UserName 程序员_Suxiaoxiang
- * @date 2024/8/15 18:06
- * @Version 1.0
- */
+@Slf4j
 @Configuration
-public class WebConfig implements WebMvcConfigurer {
+public class Webconfig  {
+     @Bean
+    public WebMvcConfigurer corsConfig(){
+         return new WebMvcConfigurer() {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
+        log.info("WebConfig已启动.......");
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:8080")  // 前端应用的 URL
+                .allowedOrigins("http://localhost:8080")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
     }
-
+};
+}
 }

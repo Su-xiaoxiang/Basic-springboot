@@ -1,8 +1,8 @@
 package com.example.classmarangethouduan.fitter;
 
+import com.example.classmarangethouduan.utils.JwtUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.example.classmarangethouduan.pojo.Result;
-import com.example.classmarangethouduan.utils.JwtUtils;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,53 +16,53 @@ import java.io.IOException;
 @WebFilter(urlPatterns = "/*")
 public class LoginFitter implements Filter {
 
-    private static final String LOGIN_URL = "login";
-    private static final String REGISTER_URL = "register";
-
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        // 强制转换
+        log.info("----------------------------------进入过滤器------------------------------------------");
         HttpServletRequest sreq = (HttpServletRequest) servletRequest;
         HttpServletResponse srep = (HttpServletResponse) servletResponse;
-
-        // 获取请求的 URL
-        String url = sreq.getRequestURL().toString();
-        log.info("获取到的 URL 为: " + url);
-
-        // 判断是否为登录或注册操作
-        if (url.contains(LOGIN_URL) || url.contains(REGISTER_URL)) {
-            log.info("登录或注册操作...成功放行");
+        // 过滤 OPTIONS 请求
+        if ("OPTIONS".equalsIgnoreCase(sreq.getMethod())) {
+            log.info("OPTIONS 请求，直接放行");
+            log.info("----------------------检测POTIONS请求完毕------------------------------------------");
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
 
-        // 判断是否含有 token
-        String token = sreq.getHeader("Access-Token");
+        String url = sreq.getRequestURL().toString();
+        log.info("获取到的后端url为: " + url);
+
+        if (url.contains("login") || url.contains("register")) {
+            log.info("登录或注册操作...成功放行");
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
+        }
+        String token = sreq.getHeader("Authorization-Token");
+        log.info("获取到的用户token: {}", token);
         if (!StringUtils.hasLength(token)) {
-            log.info("Token 不正确或为空, 返回登录页面");
-            sendErrorResponse(srep, "请重新登录");
+            log.info("token不正确或已经过期,返回登录页面");
+            sendErrorResponse(srep, "失败验证，请重新登录");
             return;
         }
 
-        // 使用 try-catch 解析 token
         try {
             JwtUtils.parseJWT(token);
         } catch (Exception e) {
-            log.info("Token 解析失败");
-            sendErrorResponse(srep, "请重新登录");
+            log.info("解析失败");
+            sendErrorResponse(srep, "失败验证，请重新登录");
             return;
         }
-
-        // 解析成功后进行放行
-        log.info("Token 验证成功，放行");
+        log.info("----------------------------------------------------");
+        log.info("啦啦啦啦......验证成功放行");
+        log.info("----------------------------------------------------");
+        log.info("------------------过滤器结束--------------------------");
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
-    // 发送错误响应
     private void sendErrorResponse(HttpServletResponse response, String message) throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 设置状态码为 401
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         Result error = Result.error(message);
         String json = JSONObject.toJSONString(error);
         response.getWriter().write(json);
